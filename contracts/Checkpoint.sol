@@ -1,6 +1,7 @@
 pragma solidity ^0.4.23;
 
 import "./Ownable.sol";
+import { MerkleProof } from "./MerkleProof.sol";
 
 contract Checkpoint is Ownable {
   address public owner;
@@ -10,15 +11,28 @@ contract Checkpoint is Ownable {
 
   event LogCheckpoint(uint256 indexed checkpointId);
 
+  // TODO: owner should be multisig of nodes
   constructor(address _owner) public {
     transferOwnership(_owner);
   }
 
-  // TODO: merkle proof verification
+  // TODO: pass sigs and check sigs of root provided
   function checkpoint(bytes32 root) public {
     checkpoints[checkpointId] = root;
 
     emit LogCheckpoint(checkpointId);
     checkpointId++;
+  }
+
+  function verify(
+    bytes32[] proof,
+    bytes32 root,
+    bytes32 leaf
+  )
+    public
+    pure
+    returns (bool)
+  {
+    return MerkleProof.verify(proof, root, leaf);
   }
 }
