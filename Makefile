@@ -12,6 +12,10 @@ start/testrpc:
 deploy:
 	@truffle deploy
 
+.PHONY: deploy/rinkeby
+deploy/rinkeby:
+	@truffle deploy --network=rinkeby
+
 .PHONY: test
 test:
 	@truffle test

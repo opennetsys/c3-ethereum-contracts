@@ -25,7 +25,9 @@ contract('Contracts', (accounts) => {
   context('Checkpoint', () => {
     describe('checkpoint', () => {
       it('should checkpoint', async () => {
-        const root = sha3({type: 'bytes32', value: '0x'+Buffer.from('hello').toString('hex')})
+        //const root = sha3({type: 'bytes32', value: '0x'+Buffer.from('hello').toString('hex')})
+        const roothex = '0xcad2340f8b4a84be0d25577551963a1e1dba5e5baebf49639ad65634c19e14f9'
+        const root = new BN(roothex.slice(2), 16).toString(10)
         const result = await contract.checkpoint(root, {
           from: owner,
         })
@@ -34,9 +36,10 @@ contract('Contracts', (accounts) => {
       })
 
       it('should read checkpoint', async () => {
-        const root = sha3({type: 'bytes32', value: '0x'+Buffer.from('hello').toString('hex')})
+        //const root = sha3({type: 'bytes32', value: '0x'+Buffer.from('hello').toString('hex')})
+        const root = '0xcad2340f8b4a84be0d25577551963a1e1dba5e5baebf49639ad65634c19e14f9'
         const result = await contract.checkpoints.call(0)
-        assert.equal(result, root)
+        assert.equal('0x'+result.toString(16), root)
       })
 
       it('should return true for valid merkle proof', async () => {

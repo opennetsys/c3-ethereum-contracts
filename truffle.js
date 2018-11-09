@@ -11,6 +11,14 @@
  *     gasPrice: 10000000000,
  *   },
  */
+require('dotenv').config()
+const WalletProvider = require('truffle-privatekey-provider')
+
+const privKey = process.env.PRIVATE_KEY
+
+if (!privKey) {
+  throw Error('PRIVATE_KEY is required. Is it in .env?')
+}
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
@@ -20,6 +28,12 @@ module.exports = {
       host: 'localhost',
       port: 8545,
       network_id: '*', // Match any network id
+    },
+    rinkeby: {
+      provider: new WalletProvider(privKey, 'https://rinkeby.infura.io'),
+      network_id: '*',
+      gas: 4712383,
+      gasPrice: 20000000000
     },
   },
 };

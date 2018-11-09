@@ -7,7 +7,7 @@ contract Checkpoint is Ownable {
   address public owner;
   uint256 public checkpointId = 0;
 
-  mapping(uint256 => bytes32) public checkpoints;
+  mapping(uint256 => uint256) public checkpoints;
 
   event LogCheckpoint(uint256 indexed checkpointId);
 
@@ -17,7 +17,7 @@ contract Checkpoint is Ownable {
   }
 
   // TODO: pass sigs and check sigs of root provided
-  function checkpoint(bytes32 root) public {
+  function checkpoint(uint256 root) public onlyOwner {
     checkpoints[checkpointId] = root;
 
     emit LogCheckpoint(checkpointId);
